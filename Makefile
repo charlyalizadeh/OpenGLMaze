@@ -1,5 +1,5 @@
 NAME=maze
-SRCS=src/Shader.cpp src/Utils.cpp src/Grid.cpp src/InitOpenGL.cpp src/VertexBuffer.cpp src/VertexArray.cpp src/VertexIndexBuffer.cpp src/glad.cpp src/main.cpp
+SRCS=src/Shader.cpp src/Utils.cpp src/Grid.cpp src/InitOpenGL.cpp src/VertexBuffer.cpp src/VertexArray.cpp src/VertexIndexBuffer.cpp src/glad.cpp src/main.cpp src/MazeGenerator.cpp
 OBJS=$(subst src,obj,$(subst .cpp,.o,$(SRCS)))
 INCLUDES=include include/glad
 FLAGS= -lglfw -lGL -lX11 -lpthread -lXrandr -lXi -ldl#-Wall -Wextra -Werror

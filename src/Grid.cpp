@@ -24,19 +24,24 @@ static void pushLine(int index, float x1, float y1, float x2, float y2, std::vec
     pushIndexAndColors(index, vertices);
 }
 
+/*
+ Order of vertices for each tile
+ 0--1
+ |  |
+ 2--3
+ 0 = (x1, y1)
+ 1 = (x2, y1)
+ 2 = (x1, y2)
+ 3 = (x2, y2)
+ Always (0 -> 1) and (0 -> 2)
+ Do (1 -> 3) if x == width - 1
+ Do (2 -> 3) if y == height - 1
+*/
 void Grid::fillVerticesWalls() {
-    // Order of vertices for each tile
-    // 0--1
-    // |  |
-    // 2--3
-    // 0 = (x1, y1)
-    // 1 = (x2, y1)
-    // 2 = (x1, y2)
-    // 3 = (x2, y2)
-    // Always (0 -> 1) and (0 -> 2)
-    // Do (1 -> 3) if x == width - 1
-    // Do (2 -> 3) if y == height - 1
-    float index = 0;
+    float index;
+
+    index = 0;
+
     for(int y = 0; y < height; y++) {
         for(int x = 0; x < width; x++) {
             float x1 = (-(float)width / 2.f + x) * tileWidth;
@@ -184,10 +189,12 @@ void Grid::draw() {
 }
 
 void Grid::setWallState(int x1, int y1, int x2, int y2, int value) {
+    int index1, index2, wallIndex;
+
     shaderWalls.bind();
-    int index1 = y1 * WIDTH + x1;
-    int index2 = y2 * WIDTH + x2;
-    int wallIndex = wall2index[Vec2D(index1, index2)];
+    index1 = y1 * WIDTH + x1;
+    index2 = y2 * WIDTH + x2;
+    wallIndex = wall2index[Vec2D(index1, index2)];
     wallState[wallIndex] = value;
     shaderWalls.setUniformIntArray("u_MazeWallState", &wallState[0], wallState.size());
 }
@@ -210,4 +217,17 @@ void Grid::setAllTileState(int value) {
     for(size_t i = 0; i < tileState.size(); i++)
         tileState[i] = value;
     shaderTiles.setUniformIntArray("u_MazeTileState", &tileState[0], tileState.size());
+}
+
+int Grid::getWallState(int x1, int y1, int x2, int y2) const {
+    int index1, index2, wallIndex;
+
+    index1 = y1 * WIDTH + x1;
+    index2 = y2 * WIDTH + x2;
+    wallIndex = wall2index.at(Vec2D(index1, index2));
+    return wallState.at(wallIndex);
+}
+
+int Grid::getTileState(int x, int y) const {
+    return tileState.at(y * WIDTH + x);
 }

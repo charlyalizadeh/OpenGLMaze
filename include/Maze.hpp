@@ -11,6 +11,26 @@
 #include <vector>
 
 
+struct Vec2D {
+    int x;
+    int y;
+    Vec2D(): x(0), y(0) {}
+    Vec2D(int x, int y): x(x), y(y) {}
+};
+
+inline bool operator<(const Vec2D& p1, const Vec2D& p2) {
+    if (p1.x != p2.x) {
+        return p1.x < p2.x;
+    } else {
+        return p1.y < p2.y;
+    }
+};
+
+inline bool operator==(const Vec2D& p1, const Vec2D& p2) {
+    return p1.x == p2.x && p1.y == p2.y;
+}
+
+
 void checkError();
 void clearError();
 template<class T>

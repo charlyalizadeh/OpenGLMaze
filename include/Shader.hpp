@@ -43,7 +43,6 @@ public:
 private:
     unsigned int m_shaderProgramId;
     std::string filepath;
-
 };
 
 

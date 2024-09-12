@@ -19,8 +19,8 @@ void main()
 
 #shader fragment
 #version 330
-#define WIDTH 45
-#define HEIGHT 45
+#define WIDTH 44
+#define HEIGHT 44
 
 in vec4 vertexColorOn;
 in vec4 vertexColorOff;
